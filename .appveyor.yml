@@ -1,18 +1,27 @@
+  plugins {
+    id 'java'
+  }
 
-image: Visual Studio 2015  # образ для сборки
+    version '1.0-SNAPSHOT'
 
-branches:
-  only:
-    - master  # ветка git
+    sourceCompatibility = 1.8
 
-build: off  # будем использовать свой скрипт сборки
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
 
-install:
-  # запускаем SUT (запоминаем информацию о процессе в переменной $App)git add
-  - ps: $App = Start-Process -FilePath java -ArgumentList "-jar ./artifacts/app-card-delivery.jar" -PassThru
 
-build_script:
-  - ps: ./gradlew test --info "-Dselenide.headless=true"  # стартуем Selenide в Headless-режиме (см.ниже)
+    repositories {
+    mavenCentral()
+  }
 
-on_finish:
-  - ps: Stop-Process -Id $App.Id  # оставливаем SUT
+    dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.13.1'
+    testCompile 'com.codeborne:selenide:5.8.0'
+  }
+
+    test {
+    useJUnitPlatform()
+    // в тестах, вызывая `gradlew test -Dselenide.headless=true` будем передавать этот параметр в JVM (где его подтянет Selenide)
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+  }

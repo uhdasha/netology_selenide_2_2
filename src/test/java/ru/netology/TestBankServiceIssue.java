@@ -20,7 +20,10 @@ public class TestBankServiceIssue {
 
         $("[data-test-id='date']").find("input").sendKeys(Keys.chord(Keys.CONTROL, "a"));
         $("[data-test-id='date']").find("input").sendKeys("\b");
-        $("[data-test-id='date']").find("input").val(genarate_date_string());
+
+        DateGenerator date = new DateGenerator();
+        date.do_genarate_date_string();
+        $("[data-test-id='date']").find("input").val(date.getDate());
 
         $("[data-test-id='name']").find("input").setValue("Петр Первый");
         $("[data-test-id='phone']").find("input").setValue("+79999999999");
@@ -31,21 +34,4 @@ public class TestBankServiceIssue {
 
     }
 
-    private String genarate_date_string() {
-        Calendar date = new GregorianCalendar();
-
-        Random random = new Random();
-
-        date.add(Calendar.DAY_OF_MONTH, random.nextInt(31) + 3);
-        String day = String.valueOf(date.get(Calendar.DAY_OF_MONTH));
-        if (date.get(Calendar.DAY_OF_MONTH) < 10) {
-            day = "0" + day;
-        }
-        String mon = String.valueOf(date.get(Calendar.MONTH) + 1);
-        if (date.get(Calendar.MONTH) + 1 < 10) {
-            mon = "0" + mon;
-        }
-        String dateStr = day + "." + mon + "." + date.get(Calendar.YEAR);
-        return dateStr;
-    }
 }

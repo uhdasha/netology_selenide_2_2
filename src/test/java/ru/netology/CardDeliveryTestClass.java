@@ -11,10 +11,10 @@ import java.util.Random;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 
-public class TestBankServiceIssue {
+public class CardDeliveryTestClass {
     @Test
     @DisplayName("Testing delivery card form")
-    public void test_issue_card() {
+    public void makeTestFillForm() {
         open("http://127.0.0.1:9999");
         $("[data-test-id='city']").find("input").setValue("Казань");
 
@@ -22,7 +22,7 @@ public class TestBankServiceIssue {
         $("[data-test-id='date']").find("input").sendKeys("\b");
 
         DateGenerator date = new DateGenerator();
-        date.do_genarate_date_string();
+        date.doGenerateDateString();
         $("[data-test-id='date']").find("input").val(date.getDate());
 
         $("[data-test-id='name']").find("input").setValue("Петр Первый");
